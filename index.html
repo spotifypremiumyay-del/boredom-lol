@@ -4,266 +4,42 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Balloon Pop Birthday Game 🎈</title>
-  <style>
-    @import url(https://fonts.googleapis.com/css?family=Montserrat);
-
-    body {
-      font-family: 'Montserrat', sans-serif;
-      background: #fbeffb;
-    }
-
-    .contain {
-      width: 850px;
-      margin: 30px auto;
-      padding: 20px;
-      background: linear-gradient(135deg, #ffe4f1, #fffbe0);
-      border-radius: 25px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
-      text-align: center;
-      border: 5px dashed #ff69b4; /* looks like a gift box */
-    }
-
-    .name {
-      color: #2e2e2e;
-      margin: 0;
-    }
-
-    .expl {
-      color: #2e2e2e;
-      margin-top: 5px;
-      margin-bottom: 15px;
-    }
-
-    #canvas{
-      background: linear-gradient(to bottom, #83a2bf, #faa088);
-      box-shadow: 0px 0px 9px 3px rgba(0, 5, 15, 0.32);
-      cursor: crosshair;
-    }
-
-    .container_buttons{
-      text-align: center;
-      margin-top: 15px;
-    }
-
-    .Life{
-      color: rgba(69, 41, 255, 1);
-      font-size: 24px;
-      margin: 10px;
-    }
-
-    .score{
-      color: rgba(31, 209, 0, 1);
-      font-size: 24px;
-      margin: 10px;
-    }
-
-    #gameMessage {
-      font-size: 40px;
-      font-weight: bold;
-      text-align: center;
-      display: none;
-      margin-top: 20px;
-    }
-
-    .win {
-      color: #ff1493;
-    }
-
-    .lose {
-      color: #a80000;
-    }
-  </style>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <!-- Gift Screen (shown initially) -->
+  <div id="merrywrap" class="merrywrap">
+    <canvas id="snowfall"></canvas>
+    <div class="giftbox">
+      <div class="cover">
+        <div></div>
+      </div>
+      <div class="box"></div>
+    </div>
 
-<div class="contain">
-   <h2 class="name">Balloon Popping</h2>
-   <p class="expl">Pop balloons before they reach the top or lose a life!</p>
-   <canvas id="canvas" width="800" height="600"></canvas>
+  </div>
 
-   <div class="container_buttons">
-      <div class="Life" id="health">Life: 5</div>
-      <input type="button" id="start" class="btn btn-primary" value="Start" />
-      <input type="button" id="reset" class="btn btn-warning" value="Reset" />
-      <div class="score" id="scr">Score: 0</div>
-   </div>
+  <!-- Game Screen (hidden initially) -->
+  <div id="gameScreen" class="game-screen" style="display: none;">
+    <div class="contain">
+       <h2 class="name">Balloon Popping</h2>
+       <p class="expl">Pop 20 balloons to get your birthday surprise!</p>
+       <canvas id="canvas" width="800" height="600"></canvas>
 
-   <div id="gameMessage"></div>
-</div>
+       <div class="container_buttons">
+          <div class="Life" id="health">Life: 5</div>
+          <input type="button" id="start" class="btn btn-primary" value="Start" />
+          <input type="button" id="reset" class="btn btn-warning" value="Reset" />
+          <div class="score" id="scr">Score: 0</div>
+       </div>
 
-<script>
-// Balloon images
-var balloon_1 = new Image(); balloon_1.src = 'https://drive.google.com/uc?export=view&id=0BzIuZOZL5LxeRi1YWmdXNWdjTm8';
-var balloon_2 = new Image(); balloon_2.src = 'https://drive.google.com/uc?export=view&id=0BzIuZOZL5LxeQ0dvS0JZdXFqYkU';
-var balloon_3 = new Image(); balloon_3.src = 'https://drive.google.com/uc?export=view&id=0BzIuZOZL5Lxed0RoajZCMjlvWFk';
-var balloon_4 = new Image(); balloon_4.src = 'https://drive.google.com/uc?export=view&id=0BzIuZOZL5Lxeb3ZGZlBEaUlyMjA';
-var balloon_5 = new Image(); balloon_5.src = 'https://drive.google.com/uc?export=view&id=0BzIuZOZL5LxeMHJ2N1F4OGIzMXM';
-var balloon_6 = new Image(); balloon_6.src = 'https://drive.google.com/uc?export=view&id=0BzIuZOZL5LxeSnlmdURiWmI1dzg';
+       <div id="gameMessage"></div>
+    </div>
+  </div>
 
-var pop = new Image();
-pop.src = 'https://drive.google.com/uc?export=view&id=0BzIuZOZL5LxeZ2NIdGthRmM1Mk0';
+  <!-- Confetti Container -->
+  <div id="confettiContainer"></div>
 
-var balloons = [];
-var scr = 0;
-var targetScore = 50; // WIN condition
-
-window.addEventListener('load', function(){
-   var animProp = { animate: false };
-   var health = 5;
-
-   document.getElementById('start').addEventListener('click', function(){
-     if (animProp.animate) {
-        document.getElementById('start').value = "Start";
-        animProp.animate = false;
-     } else {
-        document.getElementById('start').value = "Stop";
-        animProp.animate = true;
-        var time = Date.now();
-        canvasInit(time, animProp, health);
-     }
-   });
-
-   document.getElementById('reset').addEventListener('click', function(){
-    var ctx = document.getElementById('canvas').getContext('2d');
-    document.getElementById('start').value = "Start";
-    animProp.animate = false;
-    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-    balloons = [];
-    scr = 0;
-    health = 5;
-    document.getElementById('health').innerHTML = "Life: 5";
-    document.getElementById('scr').innerHTML = "Score: 0";
-    document.getElementById('gameMessage').style.display = "none";
-   });
-});
-
-var canvasInit = function(lastTime, animProp, health){
-   var ctx = document.getElementById('canvas').getContext('2d');
-   var canvasWidth = ctx.canvas.width;
-   var canvasHeight = ctx.canvas.height;
-   var spawnRate=1500;
-   var spawnRateOfDescent=1;
-   var lastSpawn = -1;
-   var healthDOM = document.getElementById('health');
-   var scoreDOM = document.getElementById('scr');
-
-   function Balloon(){
-      this.render = function(balloon, x ,y){ ctx.drawImage(balloon,x,y); }
-   }
-
-   function Pop(){
-      this.render = function(x,y){ ctx.drawImage(pop,x,y); }
-   }
-
-   function GameOverDisplay(win=false) {
-      let msg = document.getElementById("gameMessage");
-      msg.style.display = "block";
-      if(win){
-        msg.innerHTML = "🎉 HAPPY BIRTHDAY 🎉<br>You won!";
-        msg.className = "win";
-        launchConfetti();
-      } else {
-        msg.innerHTML = "💀 You LOST, leave :)";
-        msg.className = "lose";
-      }
-   }
-
-   var balon = new Balloon();
-   var POP = new Pop();
-
-   function addBalloon(){
-      var x = ~~(Math.random() * (canvasWidth - 30)) + 10;
-      var y = canvasHeight;
-      var rand = Math.random();
-      if(rand < 0.20) randomType="blue";
-      else if(rand < 0.4) randomType="green";
-      else if(rand < 0.6) randomType="yellow";
-      else if(rand < 0.8) randomType="red";
-      else randomType="purple";
-      balloons.push({"x":x,"y":y,"type":randomType});
-   }
-
-   var animate = function(){
-      if (animProp.animate) {
-        var time = Date.now();
-        if(time > (lastSpawn + spawnRate)) {
-          lastSpawn = time;
-          addBalloon();
-        }
-
-        requestAnimationFrame(function(){ animate(); });
-
-        for (var i = 0; i < balloons.length; i++) { 
-           var object = balloons[i];
-           ctx.clearRect(object.x,object.y,35,48);
-           object.y -= spawnRateOfDescent;
-           if(object.type === "blue") balon.render(balloon_1,object.x,object.y);
-           else if(object.type === "green") balon.render(balloon_2,object.x,object.y);
-           else if(object.type === "yellow") balon.render(balloon_3,object.x,object.y);
-           else if(object.type === "red") balon.render(balloon_5,object.x,object.y);
-           else balon.render(balloon_6,object.x,object.y);
-
-           if(object.y <= 0){
-              ctx.clearRect(object.x,object.y,35,48);
-              balloons.splice(i,1);
-              health -= 1;
-              scr -= 10;
-              healthDOM.innerHTML ="Life: "+health;
-              scoreDOM.innerHTML ="Score: "+scr ;
-           }
-        }
-
-        if(health <= 0){
-           animProp.animate = false;
-           GameOverDisplay(false);
-        }
-
-        if(scr >= targetScore){
-           animProp.animate = false;
-           GameOverDisplay(true);
-        }
-      }
-   }
-
-   if (animProp.animate) animate();
-
-   ctx.canvas.addEventListener('mousedown',function(event){
-      var mouseX = event.clientX - ctx.canvas.offsetLeft;
-      var mouseY = event.clientY  - ctx.canvas.offsetTop;
-      for (var i = 0; i < balloons.length; i++){ 
-        if((mouseY > balloons[i].y) && (mouseY < (balloons[i].y+48)) && (mouseX  > balloons[i].x) && (mouseX < (balloons[i].x+35))){
-          ctx.clearRect(balloons[i].x,balloons[i].y,35,48);   
-          POP.render(mouseX, mouseY);
-          balloons.splice(i,1);
-          scr++;
-          scoreDOM.innerHTML ="Score: "+scr;
-        }
-      }
-   }); 
-}
-
-// Simple confetti effect
-function launchConfetti(){
-  for(let i=0;i<100;i++){
-    const conf = document.createElement("div");
-    conf.innerHTML = "🎉";
-    conf.style.position = "fixed";
-    conf.style.left = Math.random()*100+"%";
-    conf.style.top = "-20px";
-    conf.style.fontSize = "24px";
-    conf.style.animation = `fall ${2+Math.random()*3}s linear forwards`;
-    document.body.appendChild(conf);
-    setTimeout(()=>conf.remove(),5000);
-  }
-}
-
-// Confetti fall animation
-const style = document.createElement('style');
-style.innerHTML = `
-@keyframes fall {
-  to { transform: translateY(100vh) rotate(360deg); opacity:0; }
-}`;
-document.head.appendChild(style);
-</script>
+  <script src="script.js"></script>
 </body>
 </html>

@@ -1,0 +1,410 @@
+@import url(https://fonts.googleapis.com/css?family=Montserrat);
+
+/* Global Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  overflow-x: hidden;
+}
+
+/* Gift Box Styles */
+html, body, .container {
+	height: 100%;
+}
+
+.merrywrap{
+  position: absolute;
+  right: 40px;
+  left: 40px;
+  bottom: 40px;
+  top: 40px;
+  z-index: 1000;
+}
+
+#snowfall {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.giftbox{
+  position: absolute;
+  width:300px;
+  height:200px;
+  left:50%;
+  margin-left: -150px;
+  bottom: 0;
+  z-index:10;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.giftbox > div{
+  background: #34495e;
+  position: absolute;
+}
+
+.giftbox > div:after, .giftbox > div:before{
+  position: absolute;
+  content:"";
+  top: 0;
+}
+
+.giftbox:after{
+  position: absolute;
+  color:#fff;
+  width:100%;
+  content:"Click Me!";
+  left: 0;
+  bottom: 0;
+  font-size: 24px;
+  text-align: center;
+  transform:rotate(-20deg);
+  transform-origin:0 0;
+}
+
+.giftbox .cover{
+  width:100%;
+  top: 0;
+  left: 0;
+  height:25%;
+  z-index:2;
+}
+
+.giftbox .cover:before{
+  position: absolute;
+  height:100%;
+  left: 50%;
+  width:50px;  
+  transform:translateX(-50%);
+  background:#fdc56d;
+}
+
+.giftbox .cover > div{
+  position: absolute;
+  width:50px;
+  height:50px;
+  left:50%;
+  top:-50px; 
+  transform:translateX(-50%);
+}
+
+.giftbox .cover > div:before, .giftbox .cover > div:after{
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  content:"";
+  box-shadow:inset 0 0 0 15px #fdc56d;
+  border-radius:30px;
+  transform-origin:50% 100%;
+}
+
+.giftbox .cover > div:before{
+  transform:translateX(-45%) skewY(40deg);
+}
+
+.giftbox .cover > div:after{   
+  transform:translateX(45%) skewY(-40deg);
+}
+
+.giftbox .box{
+  right:5%;
+  left:5%;
+  height:80%;
+  bottom: 0;
+}
+
+.giftbox .box:before{ 
+  width:50px;
+  height:100%;
+  left:50%;
+  transform:translateX(-50%);
+  background:#fdc56d;
+}
+
+.giftbox .box:after{
+  width:100%;
+  height:30px;
+  background:rgba(0,0,0,0.2);
+}
+
+
+
+.step-1 .giftbox{
+  animation:wobble 0.5s linear infinite forwards;
+}
+
+.step-1 .cover{
+   animation:wobble 0.5s linear infinite  0.1s forwards;
+}
+
+
+
+.step-2 .giftbox:after{
+  opacity:0;
+}
+
+.step-3 .giftbox,
+.step-4 .giftbox{
+	opacity: 0;
+  z-index:1;
+}
+
+.step-3 .giftbox:after,
+.step-4 .giftbox:after{
+  opacity:0;
+}
+
+.step-2 .giftbox .cover{
+  animation:flyUp 0.4s ease-in forwards;
+}
+
+.step-2 .giftbox .box{
+  animation:flyDown 0.2s ease-in 0.05s forwards;
+}
+
+@keyframes wobble{
+  25%{
+    transform:rotate(4deg);
+  }
+  75%{
+    transform:rotate(-2deg);
+  }
+}
+
+@keyframes flyUp{
+  75%{
+    opacity:1;
+  }
+  100%{
+    transform:translateY(-1000px) rotate(20deg);
+    opacity:0;
+  }
+}
+
+@keyframes flyDown{
+  75%{
+    opacity:1;
+  }
+  100%{
+    transform:translateY(100%);
+    opacity:0;
+  }
+}
+
+
+
+/* Game Screen Styles */
+.game-screen {
+  background: #fbeffb;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.contain {
+  width: 850px;
+  margin: 30px auto;
+  padding: 20px;
+  background: linear-gradient(135deg, #ffe4f1, #fffbe0);
+  border-radius: 25px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+  text-align: center;
+  border: 5px dashed #ff69b4;
+}
+
+.name {
+  color: #2e2e2e;
+  margin: 0;
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+.expl {
+  color: #2e2e2e;
+  margin-top: 5px;
+  margin-bottom: 15px;
+  font-size: 1.2rem;
+}
+
+#canvas {
+  background: linear-gradient(to bottom, #83a2bf, #faa088);
+  box-shadow: 0px 0px 9px 3px rgba(0, 5, 15, 0.32);
+  cursor: crosshair;
+  border-radius: 10px;
+}
+
+.container_buttons {
+  text-align: center;
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.Life {
+  color: rgba(69, 41, 255, 1);
+  font-size: 24px;
+  font-weight: bold;
+  margin: 10px;
+}
+
+.score {
+  color: rgba(31, 209, 0, 1);
+  font-size: 24px;
+  font-weight: bold;
+  margin: 10px;
+}
+
+.btn {
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin: 0 10px;
+}
+
+.btn-primary {
+  background: linear-gradient(45deg, #667eea, #764ba2);
+  color: white;
+}
+
+.btn-warning {
+  background: linear-gradient(45deg, #f093fb, #f5576c);
+  color: white;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+#gameMessage {
+  font-size: 40px;
+  font-weight: bold;
+  text-align: center;
+  display: none;
+  margin-top: 20px;
+  padding: 20px;
+  border-radius: 15px;
+  animation: messageAppear 0.5s ease-in;
+}
+
+.win {
+  color: #ff1493;
+  background: rgba(255, 20, 147, 0.1);
+  border: 3px solid #ff1493;
+}
+
+.lose {
+  color: #a80000;
+  background: rgba(168, 0, 0, 0.1);
+  border: 3px solid #a80000;
+}
+
+@keyframes messageAppear {
+  from { opacity: 0; transform: scale(0.5); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* Confetti Styles */
+#confettiContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+.confetti-piece {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: #ff6b6b;
+  animation: confettiFall linear forwards;
+}
+
+.confetti-piece:nth-child(2n) { background: #4ecdc4; }
+.confetti-piece:nth-child(3n) { background: #45b7d1; }
+.confetti-piece:nth-child(4n) { background: #f9ca24; }
+.confetti-piece:nth-child(5n) { background: #6c5ce7; }
+.confetti-piece:nth-child(6n) { background: #a29bfe; }
+
+@keyframes confettiFall {
+  to {
+    transform: translateY(100vh) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+/* Balloon Pop Effect */
+.pop-effect {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,0.8), transparent);
+  animation: popAnimation 0.3s ease-out forwards;
+  pointer-events: none;
+}
+
+@keyframes popAnimation {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(3);
+    opacity: 0;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 900px) {
+  .contain {
+    width: 95%;
+    margin: 10px auto;
+  }
+  
+  #canvas {
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+  }
+  
+  .gift-box {
+    width: 150px;
+    height: 150px;
+  }
+  
+  .gift-body {
+    width: 150px;
+    height: 112px;
+  }
+  
+  .gift-lid {
+    width: 170px;
+    height: 45px;
+  }
+  
+  .click-text {
+    font-size: 2rem;
+  }
+}
