@@ -29,7 +29,22 @@ document.addEventListener('DOMContentLoaded', function() {
 function initGiftBox() {
     merrywrap = document.getElementById("merrywrap");
     box = merrywrap.getElementsByClassName("giftbox")[0];
-    box.addEventListener("click", openBox, false);
+    
+    if (box) {
+        console.log("Gift box found, adding click listener");
+        box.addEventListener("click", openBox, false);
+        
+        // Also add hover effect for better UX
+        box.addEventListener("mouseenter", function() {
+            box.style.transform = "scale(1.05)";
+        });
+        
+        box.addEventListener("mouseleave", function() {
+            box.style.transform = "scale(1)";
+        });
+    } else {
+        console.error("Gift box element not found!");
+    }
 }
 
 function stepClass(step) {
@@ -38,6 +53,8 @@ function stepClass(step) {
 }
 
 function openBox() {
+    console.log("Gift box clicked! Current step:", step);
+    
     if (step === 1) {
         box.removeEventListener("click", openBox, false); 
     }  
@@ -45,11 +62,13 @@ function openBox() {
     
     if (step === 3) { 
         // Launch confetti when gift opens
+        console.log("Launching confetti at step 3");
         launchConfetti();
     } 
     
     if (step === 4) { 
         // Show game screen after animation completes
+        console.log("Opening game at step 4");
         setTimeout(() => {
             document.getElementById('merrywrap').style.display = 'none';
             document.getElementById('gameScreen').style.display = 'block';
