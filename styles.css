@@ -139,28 +139,7 @@ html, body, .container {
   background:rgba(0,0,0,0.2);
 }
 
-.icons{
-  position:absolute;
-  left: 0; 
-  top:50%;
-  width: 100%;
-  height: auto; 
-  transform:translateY(-50%); 
-}
 
-.icons .row{
-  width:100%;
-  text-align: center; 
-}
-
-.icons .row span{ 
-  color: #fff;
-  text-shadow: 5px 5px 0 #ca3121;
-  font-size: 84px;   
-  display: inline-block;
-  opacity:0;
-  transition: transform 0.5s ease-in, opacity 0.7s;
-}
 
 .step-1 .giftbox{
   animation:wobble 0.5s linear infinite forwards;
@@ -170,9 +149,7 @@ html, body, .container {
    animation:wobble 0.5s linear infinite  0.1s forwards;
 }
 
-.step-1 .icons .row span{
-  opacity:1;
-}
+
 
 .step-2 .giftbox:after{
   opacity:0;
@@ -226,110 +203,7 @@ html, body, .container {
   }
 }
 
-.step-1 .icons .row span{
-  opacity:0;
-}
 
-.step-1 .icons .row span:first-child { 
-	transform: translateY(700%) translateX(600%);
-}
-.step-1 .icons .row span:nth-child(2) { 
-	transform: translateY(700%) translateX(500%);
-}
-.step-1 .icons .row span:nth-child(3) { 
-	transform: translateY(700%) translateX(400%);
-}
-.step-1 .icons .row span:nth-child(4) { 
-	transform: translateY(700%) translateX(300%);
-}
-.step-1 .icons .row span:nth-child(5) { 
-	transform: translateY(700%) translateX(200%);
-}
-.step-1 .icons .row span:nth-child(6) { 
-	transform: translateY(700%) translateX(100%);
-}
-.step-1 .icons .row span:nth-child(7) { 
-	transform: translateY(700%) translateX(0);
-}
-.step-1 .icons .row span:nth-child(8) { 
-	transform: translateY(700%) translateX(-100%);
-}
-.step-1 .icons .row span:nth-child(9) { 
-	transform: translateY(700%) translateX(-200%);
-}
-.step-1 .icons .row span:nth-child(10) { 
-	transform: translateY(700%) translateX(-300%);
-}  
-.step-1 .icons .row span:nth-child(11) { 
-	transform: translateY(700%) translateX(-400%);
-} 
-.step-1 .icons .row span:nth-child(12) { 
-	transform: translateY(700%) translateX(-500%);
-} 
-.step-1 .icons .row span:nth-child(13) { 
-	transform: translateY(700%) translateX(-600%);
-} 
-
-.step-2 .icons .row span:nth-child(2) {
-	transition-delay: 0.1s;
-}
-
-.step-2 .icons .row span:nth-child(3) {
-	transition-delay: 0.15s;
-}
-
-.step-2 .icons .row span:nth-child(4) {
-	transition-delay: 0.2s;
-}
-
-.step-2 .icons .row span:nth-child(5) {
-	transition-delay: 0.25s;
-}
-
-.step-2 .icons .row span:nth-child(6) {
-	transition-delay: 0.3s;
-}
-
-.step-2 .icons .row span:nth-child(7) {
-	transition-delay: 0.35s;
-}
-
-.step-2 .icons .row span:nth-child(8) {
-	transition-delay: 0.4s;
-}
-
-.step-2 .icons .row span:nth-child(9) {
-	transition-delay: 0.45s;
-}
-
-.step-2 .icons .row span:nth-child(10) {
-	transition-delay: 0.5s;
-}
-
-.step-2 .icons .row span:nth-child(11) {
-	transition-delay: 0.55s;
-}
-
-.step-2 .icons .row span:nth-child(12) {
-	transition-delay: 0.6s;
-}
-
-.step-2 .icons .row span:nth-child(13) {
-	transition-delay: 0.65s;
-}
-
-.step-2 .icons span, .step-3 .icons span, .step-4 .icons span {
-	opacity: 0.7; 
-	transition-timing-function: cubic-bezier(0.000, 0.000, 0.200, 0.910);
-}
-
-.step-4 .icons .row span, .step-3 .icons .row span { 
-	animation: wobble 0.6s linear infinite forwards;
-}
-
-.step-4 .icons .row span:nth-child(even), .step-3 .icons .row span:nth-child(even) { 
-	animation-duration: 0.7s;
-}
 
 /* Game Screen Styles */
 .game-screen {

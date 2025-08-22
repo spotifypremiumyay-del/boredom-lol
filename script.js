@@ -60,15 +60,12 @@ function openBox() {
     }  
     stepClass(step); 
     
-    if (step === 3) { 
-        // Launch confetti when gift opens
-        console.log("Launching confetti at step 3");
+    if (step === 2) { 
+        // Launch confetti when gift opens and show game after animation
+        console.log("Launching confetti and preparing game at step 2");
         launchConfetti();
-    } 
-    
-    if (step === 4) { 
-        // Show game screen after animation completes
-        console.log("Opening game at step 4");
+        
+        // Show game screen after the box animation completes
         setTimeout(() => {
             document.getElementById('merrywrap').style.display = 'none';
             document.getElementById('gameScreen').style.display = 'block';
