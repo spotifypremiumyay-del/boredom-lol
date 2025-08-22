@@ -8,15 +8,40 @@
 </head>
 <body>
   <!-- Gift Screen (shown initially) -->
-  <div id="giftScreen" class="gift-screen">
-    <div class="gift-container">
-      <div class="gift-box" id="giftBox">
-        <div class="gift-lid"></div>
-        <div class="gift-body"></div>
-        <div class="gift-ribbon-v"></div>
-        <div class="gift-ribbon-h"></div>
+  <div id="merrywrap" class="merrywrap">
+    <canvas id="snowfall"></canvas>
+    <div class="giftbox">
+      <div class="cover">
+        <div></div>
       </div>
-      <p class="click-text">Click Me!</p>
+      <div class="box"></div>
+    </div>
+    <div class="icons">
+      <div class="row"> 
+        <span>D</span>
+        <span>e</span>
+        <span>a</span>
+        <span>r</span>
+        <span>L</span>
+        <span>e</span>
+        <span>o</span>
+        <span>n</span> 
+      </div>
+      <div class="row">
+          <span class="letter">H</span>
+          <span class="letter">a</span>
+          <span class="letter">p</span>
+          <span class="letter">p</span>
+          <span class="letter">y</span>
+          <span class="letter">B</span>
+          <span class="letter">i</span>
+          <span class="letter">r</span>
+          <span class="letter">t</span>
+          <span class="letter">h</span>
+          <span class="letter">d</span>
+          <span class="letter">a</span>
+          <span class="letter">y</span>
+      </div> 
     </div>
   </div>
 
@@ -24,7 +49,7 @@
   <div id="gameScreen" class="game-screen" style="display: none;">
     <div class="contain">
        <h2 class="name">Balloon Popping</h2>
-       <p class="expl">Pop balloons before they reach the top or lose a life!</p>
+       <p class="expl">Pop 20 balloons to get your birthday surprise!</p>
        <canvas id="canvas" width="800" height="600"></canvas>
 
        <div class="container_buttons">

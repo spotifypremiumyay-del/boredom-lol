@@ -1,7 +1,7 @@
 // Game variables
 let balloons = [];
 let scr = 0;
-let targetScore = 50;
+let targetScore = 20; // Changed to 20 balloons
 let animProp = { animate: false };
 let health = 5;
 let ctx;
@@ -11,26 +11,111 @@ let spawnRate = 1500;
 let spawnRateOfDescent = 2;
 let lastSpawn = -1;
 
+// Gift box variables
+let merrywrap;
+let box;
+let step = 1;
+let stepMinutes = [2000, 2000, 1000, 1000];
+
 // Wait for DOM to load
 document.addEventListener('DOMContentLoaded', function() {
-    // Gift screen functionality
-    const giftScreen = document.getElementById('giftScreen');
-    const gameScreen = document.getElementById('gameScreen');
-    const giftBox = document.getElementById('giftBox');
+    // Initialize gift box
+    initGiftBox();
+    // Initialize snowfall
+    initSnowfall();
+});
 
-    // Gift click handler
-    giftBox.addEventListener('click', function() {
-        // Launch confetti
+// Gift box functionality
+function initGiftBox() {
+    merrywrap = document.getElementById("merrywrap");
+    box = merrywrap.getElementsByClassName("giftbox")[0];
+    box.addEventListener("click", openBox, false);
+}
+
+function stepClass(step) {
+    merrywrap.className = 'merrywrap';
+    merrywrap.className = 'merrywrap step-' + step;
+}
+
+function openBox() {
+    if (step === 1) {
+        box.removeEventListener("click", openBox, false); 
+    }  
+    stepClass(step); 
+    
+    if (step === 3) { 
+        // Launch confetti when gift opens
         launchConfetti();
-        
-        // Hide gift screen and show game screen after a short delay
+    } 
+    
+    if (step === 4) { 
+        // Show game screen after animation completes
         setTimeout(() => {
-            giftScreen.style.display = 'none';
-            gameScreen.style.display = 'block';
+            document.getElementById('merrywrap').style.display = 'none';
+            document.getElementById('gameScreen').style.display = 'block';
             initializeGame();
         }, 1000);
+        return;
+    }     
+    
+    setTimeout(openBox, stepMinutes[step - 1]);
+    step++;  
+}
+
+// Snowfall effect
+function initSnowfall() {
+    const canvas = document.getElementById('snowfall');
+    const ctx = canvas.getContext('2d');
+    
+    // Set canvas size
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    
+    const snowflakes = [];
+    const numberOfSnowflakes = 100;
+    
+    // Create snowflakes
+    for (let i = 0; i < numberOfSnowflakes; i++) {
+        snowflakes.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            radius: Math.random() * 4 + 1,
+            speed: Math.random() * 3 + 1,
+            opacity: Math.random() * 0.5 + 0.3
+        });
+    }
+    
+    function animateSnowfall() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        snowflakes.forEach(flake => {
+            ctx.beginPath();
+            ctx.arc(flake.x, flake.y, flake.radius, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(255, 255, 255, ${flake.opacity})`;
+            ctx.fill();
+            
+            // Move snowflake
+            flake.y += flake.speed;
+            flake.x += Math.sin(flake.y * 0.01) * 0.5;
+            
+            // Reset snowflake when it goes off screen
+            if (flake.y > canvas.height) {
+                flake.y = -10;
+                flake.x = Math.random() * canvas.width;
+            }
+        });
+        
+        requestAnimationFrame(animateSnowfall);
+    }
+    
+    animateSnowfall();
+    
+    // Resize handler
+    window.addEventListener('resize', () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
     });
-});
+}
 
 // Initialize game after gift is opened
 function initializeGame() {
